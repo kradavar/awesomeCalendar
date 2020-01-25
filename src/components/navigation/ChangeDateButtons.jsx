@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Button from "./Button";
 import { calendarContext } from "../calendar/context";
 import { VIEW_MODES } from "../../constants/calendarConstants";
@@ -9,7 +9,8 @@ import {
   addDays,
   subMonths,
   subWeeks,
-  subDays
+  subDays,
+  format
 } from "date-fns";
 
 const ChangeDateButtons = () => {
@@ -40,6 +41,9 @@ const ChangeDateButtons = () => {
   return (
     <View style={styles.container}>
       <Button name="previous" action={decreaseFnc} />
+      <Text>
+        {format(currentDate, mode === VIEW_MODES.MONTH ? "MMMM" : "PPP")}
+      </Text>
       <Button name="next" action={increaseFnc} />
     </View>
   );
@@ -49,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "50%"
+    width: "75%"
   }
 });
 

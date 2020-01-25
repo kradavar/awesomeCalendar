@@ -1,24 +1,34 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { format } from "date-fns";
+import {
+  format,
+  isSunday,
+  isSameISOWeek,
+  endOfMonth,
+  isMonday
+} from "date-fns";
 import { calendarContext } from "./context";
 import { VIEW_MODES } from "../../constants/calendarConstants";
 import Hour from "./Hour";
 
 const Day = ({ date }) => {
-  const { mode } = useContext(calendarContext);
+  const { mode, currentDate } = useContext(calendarContext);
   const isMonthMode = mode === VIEW_MODES.MONTH;
+  const isDayMode = mode === VIEW_MODES.DAY;
+  const isLastWeekOfMonth = isSameISOWeek(date, endOfMonth(currentDate));
   const hours = [];
 
   for (let index = 0; index < 24; index++) {
-    hours.push(<Hour key={index} hour={index} />);
+    hours.push(<Hour key={index} hour={index} isMonday={isMonday(date)} />);
   }
 
   return (
     <View
       style={{
         ...styles.dayContainer,
-        width: mode === VIEW_MODES.DAY ? "85%" : "13%"
+        width: isDayMode ? "85%" : "14%",
+        borderRightWidth: !isDayMode && !isSunday(date) ? 0 : 1,
+        borderBottomWidth: isMonthMode && !isLastWeekOfMonth ? 0 : 1
       }}>
       {isMonthMode ? (
         <TouchableOpacity onPress={() => alert(format(date, "dd"))}>

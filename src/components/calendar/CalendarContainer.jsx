@@ -24,12 +24,14 @@ const CalendarContainer = () => {
     }
   };
 
-  return <View>{getCalendarContent()}</View>;
+  return <View style={styles.container}>{getCalendarContent()}</View>;
 };
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex"
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
