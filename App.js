@@ -1,15 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import CalendarContextProvider from "./src/components/calendar/context";
 import CalendarContainer from "./src/components/calendar/CalendarContainer";
 import ModeSwitcher from "./src/components/ModeSwitcher";
+import ChangeDateButtons from "./src/components/navigation/ChangeDateButtons";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <CalendarContextProvider>
         <ModeSwitcher />
+        <ChangeDateButtons />
         <CalendarContainer />
       </CalendarContextProvider>
     </View>
