@@ -1,10 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+import CalendarContextProvider from "./src/components/calendar/context";
+import CalendarContainer from "./src/components/calendar/CalendarContainer";
+import ModeSwitcher from "./src/components/ModeSwitcher";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <CalendarContextProvider>
+        <ModeSwitcher />
+        <CalendarContainer />
+      </CalendarContextProvider>
     </View>
   );
 }
@@ -12,8 +19,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingTop: "10%"
+  }
 });
