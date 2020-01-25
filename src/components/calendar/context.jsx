@@ -5,7 +5,9 @@ const context = {
   mode: VIEW_MODES.MONTH,
   currentDate: new Date(),
   setMode: () => ({}),
-  setCurrentDate: () => ({})
+  setCurrentDate: () => ({}),
+  events: [],
+  addEvent: event => events.push(event)
 };
 
 export const calendarContext = createContext(context);
@@ -18,7 +20,9 @@ const CalendarContextProvider = ({ children }) => {
     mode,
     setMode,
     currentDate,
-    setCurrentDate
+    setCurrentDate,
+    events: [],
+    addEvent: event => events.push(event)
   };
 
   return (
