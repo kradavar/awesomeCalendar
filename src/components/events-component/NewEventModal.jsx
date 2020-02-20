@@ -32,12 +32,19 @@ const NewEventModal = ({ visible, hideModal }) => {
 
 	return (
 		<View>
-			<Modal animationType="slide" transparent={true} visible={visible} presentationStyle="formSheet">
+			<Modal
+				animationType="slide"
+				transparent={true}
+				style={{
+					backgroundColor: 'red',
+				}}
+				visible={visible}>
 				<View style={styles.container}>
 					<View style={styles.modal}>
 						<TouchableOpacity onPress={hideModal} style={styles.closeButton}>
 							<Text>x</Text>
 						</TouchableOpacity>
+						<Text>Add a new event</Text>
 						<View style={styles.inputWrapper}>
 							<Text>Event name:</Text>
 							<TextInput placeholder="Enter event name" onChangeText={text => setEventName(text)} />

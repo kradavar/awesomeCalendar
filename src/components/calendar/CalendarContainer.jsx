@@ -7,6 +7,7 @@ import Month from './Month';
 import Week from './Week';
 import Day from './Day';
 import { startOfISOWeek } from 'date-fns';
+import Header from './CalendarHeader';
 
 const CalendarContainer = () => {
 	const calendarInfo = useContext(calendarContext);
@@ -28,6 +29,7 @@ const CalendarContainer = () => {
 
 	return (
 		<View style={styles.container}>
+			{/* <Header /> */}
 			{getCalendarContent()}
 			{calendarInfo.events.map(event => (
 				<View key={event.name}>

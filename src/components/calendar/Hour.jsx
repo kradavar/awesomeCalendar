@@ -1,25 +1,36 @@
-import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import React from 'react';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import colors from '../../constants/theme';
 
-const Hour = ({ hour, isMonday }) => {
-  return (
-    <View
-      style={{
-        ...styles.container,
-        borderTopWidth: hour === 0 ? 0 : 1
-      }}>
-      <TouchableOpacity onPress={() => alert("hey")}>
-        <Text>{hour}</Text>
-      </TouchableOpacity>
-    </View>
-  );
+const Hour = ({ hour, isMonday, isDayMode }) => {
+	return (
+		<View>
+			<TouchableOpacity
+				style={{
+					...styles.cell,
+					borderTopWidth: hour === 0 ? 0 : 1,
+				}}
+				onPress={() => alert('hey')}>
+				{(isMonday || isDayMode) && (
+					<View>
+						<Text>{hour}</Text>
+					</View>
+				)}
+			</TouchableOpacity>
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderTopWidth: 1,
-    borderColor: "blue"
-  }
+	container: {
+		flex: 1,
+		marginTop: 50,
+	},
+	cell: {
+		borderTopWidth: 1,
+		borderColor: colors.MAIN_COLOR,
+		height: 50,
+	},
 });
 
 export default Hour;
