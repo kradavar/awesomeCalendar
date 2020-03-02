@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import colors from '../../constants/theme';
 import EventInfoModal from '../events-component/EventInfoModal';
+import { differenceInMinutes } from 'date-fns';
 
 const Hour = ({ hour, isMonday, isDayMode, events }) => {
 	const [selectedEvent, setSelectedEvent] = useState({});
@@ -18,22 +19,38 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 				{(isMonday || isDayMode) && (
 					<View>
 						<Text>{hour}</Text>
-						{events &&
-							events.map(event => (
-								<View key={new Date()}>
+					</View>
+				)}
+				<View>
+					{events &&
+						events.map(event => {
+							const eventHeight = Math.round(
+								(differenceInMinutes(new Date(event.endDate), new Date(event.startDate)) * 5) / 6
+							);
+
+							console.log('[eventHeight]', eventHeight);
+
+							return (
+								<View
+									key={new Date()}
+									style={{
+										position: 'relative',
+									}}>
 									<TouchableOpacity
-										style={styles.eventWrapper}
+										style={{
+											...styles.eventWrapper,
+											height: eventHeight,
+										}}
 										onPress={() => {
 											setSelectedEvent(event);
 											setInfoModalVisible(true);
 										}}>
-										<View style={styles.eventMark}></View>
 										<Text style={styles.eventName}>{event.name}</Text>
 									</TouchableOpacity>
 								</View>
-							))}
-					</View>
-				)}
+							);
+						})}
+				</View>
 			</TouchableOpacity>
 			<EventInfoModal visible={isInfoModalVisible} hideModal={() => setInfoModalVisible(false)} event={selectedEvent} />
 		</View>
@@ -55,18 +72,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-	},
-	eventMark: {
-		backgroundColor: colors.EVENT_MARKER_COLOR,
-		borderRadius: 50,
-		width: 5,
-		height: 5,
+		backgroundColor: colors.EVENT_COLOR,
+		width: '95%',
+		marginLeft: '5%',
+		borderRadius: 5,
+		position: 'absolute',
+		top: -22,
+		zIndex: 100,
 	},
 	eventName: {
 		fontSize: 7,
-		backgroundColor: colors.EVENT_COLOR,
 		padding: 1,
-		borderRadius: 5,
 	},
 });
 

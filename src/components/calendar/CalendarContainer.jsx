@@ -9,11 +9,9 @@ import Day from './Day';
 import { startOfISOWeek } from 'date-fns';
 
 const CalendarContainer = () => {
-	const calendarInfo = useContext(calendarContext);
+	const { mode, currentDate, events } = useContext(calendarContext);
 
 	const getCalendarContent = () => {
-		const { mode, currentDate } = calendarInfo;
-
 		switch (mode) {
 			case VIEW_MODES.WEEK:
 				return <Week start={startOfISOWeek(currentDate)} />;
@@ -24,17 +22,16 @@ const CalendarContainer = () => {
 		}
 	};
 
-	console.log('[events]', calendarInfo.events);
-
 	return (
 		<View style={styles.container}>
 			{/* <Header /> */}
 			{getCalendarContent()}
-			{calendarInfo.events.map(event => (
-				<View key={event.name}>
-					<Text>{event.name}</Text>
-				</View>
-			))}
+			{mode === VIEW_MODES.MONTH &&
+				events.map(event => (
+					<View key={event.name}>
+						<Text>{event.name}</Text>
+					</View>
+				))}
 		</View>
 	);
 };
