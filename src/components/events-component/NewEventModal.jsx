@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, CheckBox } from 'react-native';
 import { calendarContext } from '../calendar/context';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { format, setHours, setMinutes, getHours, getMinutes } from 'date-fns';
+import { format } from 'date-fns';
 
 const NewEventModal = ({ visible, hideModal }) => {
 	const { currentDate, addEvent } = useContext(calendarContext);
@@ -41,13 +41,7 @@ const NewEventModal = ({ visible, hideModal }) => {
 	};
 	return (
 		<View>
-			<Modal
-				animationType="slide"
-				transparent={true}
-				style={{
-					backgroundColor: 'red',
-				}}
-				visible={visible}>
+			<Modal animationType="slide" transparent={true} visible={visible}>
 				<View style={styles.container}>
 					<View style={styles.modal}>
 						<TouchableOpacity onPress={hideModal} style={styles.closeButton}>

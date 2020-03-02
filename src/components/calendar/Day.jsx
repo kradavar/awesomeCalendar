@@ -5,25 +5,33 @@ import { calendarContext } from './context';
 import { VIEW_MODES } from '../../constants/calendarConstants';
 import Hour from './Hour';
 import colors from './../../constants/theme';
+import EventInfoModal from '../events-component/EventInfoModal';
 
 const Day = ({ date }) => {
 	const { mode, currentDate, events, setCurrentDate, setMode } = useContext(calendarContext);
 	const [dayEvents, setEvents] = useState([]);
+	const [isInfoModalVisible, setInfoModalVisible] = useState(false);
+	const [selectedEvent, setSelectedEvent] = useState({});
+	const [hours, setHours] = useState([]);
 	const isMonthMode = mode === VIEW_MODES.MONTH;
 	const isDayMode = mode === VIEW_MODES.DAY;
 	const isLastWeekOfMonth = isSameISOWeek(date, endOfMonth(currentDate));
-	const hours = [];
 	const dayStyles = isSameMonth(currentDate, date) ? styles.currentMonthDate : styles.dayContainer;
-
-	for (let index = 0; index < 24; index++) {
-		hours.push(<Hour key={index} hour={index} isMonday={isMonday(date)} isDayMode={isDayMode} />);
-	}
 
 	useEffect(() => {
 		const eventsForThatDay = events.filter(event => isSameDay(new Date(event.startDate), date));
-
+		const hourArr = [];
+		for (let index = 0; index < 24; index++) {
+			const hourEvents = eventsForThatDay.filter(
+				event => !event.isAllDayEvent && +new Date(event.startDate).getHours() === index
+			);
+			hourArr.push(
+				<Hour key={index} hour={index} isMonday={isMonday(date)} events={hourEvents} isDayMode={isDayMode} />
+			);
+		}
+		setHours(hourArr);
 		setEvents(eventsForThatDay);
-	}, [events]);
+	}, [events, date]);
 
 	return (
 		<View
@@ -45,19 +53,30 @@ const Day = ({ date }) => {
 					<Text style={isToday(date) ? styles.todayDate : {}}>{format(date, 'dd')}</Text>
 					{dayEvents &&
 						dayEvents.map(event => (
-							<View style={styles.eventWrapper}>
-								<TouchableOpacity style={styles.eventMark}></TouchableOpacity>
-								<Text style={styles.eventName}>{event.name}</Text>
+							<View key={new Date()}>
+								<TouchableOpacity
+									style={styles.eventWrapper}
+									onPress={() => {
+										setSelectedEvent(event);
+										setInfoModalVisible(true);
+									}}>
+									<View style={styles.eventMark}></View>
+									<Text style={styles.eventName}>{event.name}</Text>
+								</TouchableOpacity>
 							</View>
 						))}
 				</TouchableOpacity>
 			) : (
-				<SafeAreaView>
+				<SafeAreaView
+					style={{
+						height: '95%',
+					}}>
 					<ScrollView>
 						<View>{hours}</View>
 					</ScrollView>
 				</SafeAreaView>
 			)}
+			<EventInfoModal visible={isInfoModalVisible} hideModal={() => setInfoModalVisible(false)} event={selectedEvent} />
 		</View>
 	);
 };
