@@ -23,13 +23,15 @@ const Header = () => {
 	}, [currentDate]);
 
 	return (
-		<View style={{ ...styles.container, width: mode === VIEW_MODES.DAY ? '88%' : '100%' }}>
+		<View style={{ ...styles.container, width: '100%' }}>
 			{dayByWeek.map((day, index) => (
 				<View
 					key={index}
 					style={{
 						...styles.cell,
 						borderRightWidth: index === 6 ? 1 : 0,
+						height: mode === VIEW_MODES.MONTH ? 30 : 60,
+						marginTop: mode === VIEW_MODES.MONTH ? 5 : 30,
 					}}>
 					<Text>{day}</Text>
 					{mode !== VIEW_MODES.MONTH && !!weekDates.length && (
@@ -45,7 +47,6 @@ const Header = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 15,
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
@@ -56,9 +57,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: colors.MAIN_COLOR,
 		backgroundColor: colors.MAIN_COLOR_LIGHT,
-		minHeight: 50,
 		width: '14%',
 		borderBottomWidth: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	chosenDay: {
 		backgroundColor: colors.WHITE,

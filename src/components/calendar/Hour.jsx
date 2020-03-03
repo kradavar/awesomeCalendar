@@ -10,12 +10,11 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 
 	return (
 		<View>
-			<TouchableOpacity
+			<View
 				style={{
 					...styles.cell,
 					borderTopWidth: hour === 0 ? 0 : 1,
-				}}
-				onPress={() => alert('hey')}>
+				}}>
 				{(isMonday || isDayMode) && (
 					<View>
 						<Text>{hour}</Text>
@@ -51,7 +50,7 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 							);
 						})}
 				</View>
-			</TouchableOpacity>
+			</View>
 			<EventInfoModal visible={isInfoModalVisible} hideModal={() => setInfoModalVisible(false)} event={selectedEvent} />
 		</View>
 	);
@@ -66,6 +65,8 @@ const styles = StyleSheet.create({
 		borderTopWidth: 1,
 		borderColor: colors.MAIN_COLOR,
 		height: 50,
+		zIndex: 10,
+		position: 'relative',
 	},
 	eventWrapper: {
 		display: 'flex',

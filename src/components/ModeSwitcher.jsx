@@ -21,11 +21,7 @@ const ModeSwitcher = () => {
 					...styles.buttonWrapper,
 					backgroundColor: mode === VIEW_MODES.WEEK ? colors.MAIN_COLOR_LIGHT : colors.MAIN_COLOR,
 				}}
-				onPress={() => {
-					console.log('[aaa]');
-
-					mode !== VIEW_MODES.WEEK && setMode(VIEW_MODES.WEEK);
-				}}>
+				onPress={() => mode !== VIEW_MODES.WEEK && setMode(VIEW_MODES.WEEK)}>
 				<Text style={styles.label}>{VIEW_MODES.WEEK}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity

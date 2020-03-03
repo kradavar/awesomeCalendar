@@ -7,7 +7,7 @@ import Month from './Month';
 import Week from './Week';
 import Day from './Day';
 import Header from './Header';
-import { startOfISOWeek } from 'date-fns';
+import { startOfISOWeek, isSameMonth } from 'date-fns';
 
 const CalendarContainer = () => {
 	const { mode, currentDate, events } = useContext(calendarContext);
@@ -28,11 +28,14 @@ const CalendarContainer = () => {
 			<Header />
 			{getCalendarContent()}
 			{mode === VIEW_MODES.MONTH &&
-				events.map(event => (
-					<View key={event.name}>
-						<Text>{event.name}</Text>
-					</View>
-				))}
+				events.map(
+					event =>
+						isSameMonth(new Date(event.startDate), currentDate) && (
+							<View key={event.name}>
+								<Text>{event.name}</Text>
+							</View>
+						)
+				)}
 		</View>
 	);
 };

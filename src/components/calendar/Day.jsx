@@ -41,9 +41,11 @@ const Day = ({ date }) => {
 		<View
 			style={{
 				...styles.dayContainer,
-				width: isDayMode ? '85%' : '14%',
+				width: isDayMode ? '100%' : '14%',
 				borderRightWidth: !isDayMode && !isSunday(date) ? 0 : 1,
 				borderBottomWidth: isMonthMode && !isLastWeekOfMonth ? 0 : 1,
+				height: isDayMode ? '82%' : '100%',
+				marginBottom: isDayMode ? 70 : 0,
 				...dayStyles,
 			}}>
 			{isMonthMode ? (
@@ -73,7 +75,7 @@ const Day = ({ date }) => {
 			) : (
 				<SafeAreaView
 					style={{
-						height: '95%',
+						height: '100%',
 					}}>
 					<ScrollView>
 						<View>{hours}</View>
