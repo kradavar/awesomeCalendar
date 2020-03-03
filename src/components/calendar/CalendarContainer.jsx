@@ -6,6 +6,7 @@ import { VIEW_MODES } from '../../constants/calendarConstants';
 import Month from './Month';
 import Week from './Week';
 import Day from './Day';
+import Header from './Header';
 import { startOfISOWeek } from 'date-fns';
 
 const CalendarContainer = () => {
@@ -23,8 +24,8 @@ const CalendarContainer = () => {
 	};
 
 	return (
-		<View style={styles.container}>
-			{/* <Header /> */}
+		<View style={styles.calendarContainer}>
+			<Header />
 			{getCalendarContent()}
 			{mode === VIEW_MODES.MONTH &&
 				events.map(event => (
@@ -37,7 +38,7 @@ const CalendarContainer = () => {
 };
 
 const styles = StyleSheet.create({
-	container: {
+	calendarContainer: {
 		width: '90%',
 		justifyContent: 'center',
 		alignItems: 'center',

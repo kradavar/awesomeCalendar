@@ -16,7 +16,11 @@ const Day = ({ date }) => {
 	const isMonthMode = mode === VIEW_MODES.MONTH;
 	const isDayMode = mode === VIEW_MODES.DAY;
 	const isLastWeekOfMonth = isSameISOWeek(date, endOfMonth(currentDate));
-	const dayStyles = isSameMonth(currentDate, date) ? styles.currentMonthDate : styles.dayContainer;
+	const dayStyles = isSameMonth(currentDate, date)
+		? styles.currentMonthDate
+		: isMonthMode
+		? styles.dayContainer
+		: styles.currentMonthDate;
 
 	useEffect(() => {
 		const eventsForThatDay = events.filter(event => isSameDay(new Date(event.startDate), date));

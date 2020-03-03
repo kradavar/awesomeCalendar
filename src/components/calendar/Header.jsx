@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { startOfWeek, addDays, format, isSameDay } from 'date-fns';
+import { startOfWeek, addDays, format, isSameDay, getDate } from 'date-fns';
 import { calendarContext } from './context';
+
 import { VIEW_MODES } from '../../constants/calendarConstants';
 import colors from '../../constants/theme';
 
@@ -11,7 +12,7 @@ const Header = () => {
 	const dayByWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 	useEffect(() => {
-		const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 });
+		const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 2 });
 		const week = [];
 
 		for (let i = 0; i < dayByWeek.length; i++) {
@@ -19,16 +20,21 @@ const Header = () => {
 		}
 
 		setWeekDates(week);
-	});
+	}, [currentDate]);
 
 	return (
-		<View style={styles.container}>
-			{dayByWeek.map((weekDay, index) => (
-				<View key={index} style={styles.cell}>
-					<Text>{weekDay}</Text>
-					{mode !== VIEW_MODES.MONTH && (
-						<Text style={isSameDay(weekDates[index], currentDate) ? styles.chosenDay : {}}>
-							{format(weekDates[index], 'dd')}
+		<View style={{ ...styles.container, width: mode === VIEW_MODES.DAY ? '88%' : '100%' }}>
+			{dayByWeek.map((day, index) => (
+				<View
+					key={index}
+					style={{
+						...styles.cell,
+						borderRightWidth: index === 6 ? 1 : 0,
+					}}>
+					<Text>{day}</Text>
+					{mode !== VIEW_MODES.MONTH && !!weekDates.length && (
+						<Text style={isSameDay(addDays(weekDates[index], -1), currentDate) && styles.chosenDay}>
+							{getDate(addDays(weekDates[index], -1))}
 						</Text>
 					)}
 				</View>
@@ -39,19 +45,23 @@ const Header = () => {
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: 15,
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 	},
 	cell: {
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: colors.MAIN_COLOR,
+		backgroundColor: colors.MAIN_COLOR_LIGHT,
 		minHeight: 50,
+		width: '14%',
+		borderBottomWidth: 0,
 	},
 	chosenDay: {
-		backgroundColor: colors.MAIN_COLOR_LIGHT,
+		backgroundColor: colors.WHITE,
 		borderRadius: 50,
 		width: 30,
 		height: 30,

@@ -5,4 +5,5 @@ export default {
 	SECONDARY_COLOR_LIGHT: '#5ccccc',
 	EVENT_COLOR: '#86B22D',
 	EVENT_MARKER_COLOR: '#679b00',
+	WHITE: '#fff',
 };

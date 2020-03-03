@@ -27,8 +27,7 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 							const eventHeight = Math.round(
 								(differenceInMinutes(new Date(event.endDate), new Date(event.startDate)) * 5) / 6
 							);
-
-							console.log('[eventHeight]', eventHeight);
+							const eventTop = styles.eventWrapper.top + Math.round((new Date(event.startDate).getMinutes() * 5) / 6);
 
 							return (
 								<View
@@ -40,6 +39,7 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 										style={{
 											...styles.eventWrapper,
 											height: eventHeight,
+											top: eventTop,
 										}}
 										onPress={() => {
 											setSelectedEvent(event);
