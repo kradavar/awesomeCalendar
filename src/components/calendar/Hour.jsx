@@ -44,7 +44,8 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 											setSelectedEvent(event);
 											setInfoModalVisible(true);
 										}}>
-										<Text style={styles.eventName}>{event.name}</Text>
+										<Text style={styles.eventName}>{event.name}:</Text>
+										<Text style={styles.eventDescription}>{event.description}</Text>
 									</TouchableOpacity>
 								</View>
 							);
@@ -72,7 +73,8 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		alignItems: 'center',
+		alignItems: 'flex-start',
+		paddingTop: 5,
 		backgroundColor: colors.EVENT_COLOR,
 		width: '95%',
 		marginLeft: '5%',
@@ -84,8 +86,14 @@ const styles = StyleSheet.create({
 		borderColor: colors.EVENT_MARKER_COLOR,
 	},
 	eventName: {
-		fontSize: 7,
+		fontSize: 8,
 		padding: 1,
+		paddingRight: 5,
+	},
+	eventDescription: {
+		fontSize: 8,
+		padding: 1,
+		fontStyle: 'italic',
 	},
 });
 
