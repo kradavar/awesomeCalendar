@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, CheckBox } from 'react-native';
 import { calendarContext } from '../calendar/context';
+import colors from '../../constants/theme';
 
 const EventInfoModal = ({ hideModal, event, visible }) => {
 	const { deleteEvent } = useContext(calendarContext);
@@ -34,8 +35,8 @@ const EventInfoModal = ({ hideModal, event, visible }) => {
 							</View>
 						</View>
 						<View>
-							<TouchableOpacity onPress={() => removeEvent(event)}>
-								<Text>delete event</Text>
+							<TouchableOpacity onPress={() => removeEvent(event)} style={styles.deleteButton}>
+								<Text style={styles.buttonLabel}>delete event</Text>
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -51,16 +52,15 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: 'rgba(255, 115, 115, 0.4)',
 	},
 	modal: {
 		width: '75%',
 		height: '40%',
 		backgroundColor: 'white',
 		borderWidth: 1,
-		borderColor: 'blue',
-		shadowColor: 'blue',
-		shadowOpacity: 0.5,
 		paddingTop: 15,
+		justifyContent: 'space-between',
 	},
 	closeButton: {
 		position: 'absolute',
@@ -72,6 +72,16 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	description: {},
+	deleteButton: {
+		backgroundColor: colors.MAIN_COLOR_LIGHT,
+		width: '100%',
+		paddingVertical: 10,
+		justifyContent: 'center',
+	},
+	buttonLabel: {
+		textAlign: 'center',
+		textTransform: 'uppercase',
+	},
 });
 
 export default EventInfoModal;

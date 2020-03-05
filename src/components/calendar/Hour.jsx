@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: -22,
 		zIndex: 100,
+		borderWidth: 2,
+		borderColor: colors.EVENT_MARKER_COLOR,
 	},
 	eventName: {
 		fontSize: 7,

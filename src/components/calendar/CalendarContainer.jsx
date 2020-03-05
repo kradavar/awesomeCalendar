@@ -8,6 +8,7 @@ import Week from './Week';
 import Day from './Day';
 import Header from './Header';
 import { startOfISOWeek, isSameMonth } from 'date-fns';
+import EventList from '../events-component/EventList';
 
 const CalendarContainer = () => {
 	const { mode, currentDate, events } = useContext(calendarContext);
@@ -27,15 +28,9 @@ const CalendarContainer = () => {
 		<View style={styles.calendarContainer}>
 			<Header />
 			{getCalendarContent()}
-			{mode === VIEW_MODES.MONTH &&
-				events.map(
-					event =>
-						isSameMonth(new Date(event.startDate), currentDate) && (
-							<View key={event.name}>
-								<Text>{event.name}</Text>
-							</View>
-						)
-				)}
+			{mode === VIEW_MODES.MONTH && (
+				<EventList events={[...events.filter(event => isSameMonth(new Date(event.startDate), currentDate))]} />
+			)}
 		</View>
 	);
 };

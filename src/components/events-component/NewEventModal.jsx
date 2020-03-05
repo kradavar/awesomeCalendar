@@ -3,6 +3,7 @@ import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, CheckBox } 
 import { calendarContext } from '../calendar/context';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns';
+import colors from '../../constants/theme';
 
 const NewEventModal = ({ visible, hideModal }) => {
 	const { currentDate, addEvent } = useContext(calendarContext);
@@ -14,6 +15,7 @@ const NewEventModal = ({ visible, hideModal }) => {
 	const [isEndFilled, setEndFilled] = useState(false);
 	const [endDate, setEndDate] = useState(format(currentDate, 'PP'));
 	const [eventName, setEventName] = useState('');
+	const [description, setEventDescription] = useState('');
 
 	const handleDateChanging = (date, isStart) => {
 		const setFnc = isStart ? setStartDate : setEndDate;
@@ -35,6 +37,7 @@ const NewEventModal = ({ visible, hideModal }) => {
 			startDate,
 			endDate,
 			isAllDayEvent,
+			description,
 		};
 		addEvent(event);
 		hideModal();
@@ -45,9 +48,14 @@ const NewEventModal = ({ visible, hideModal }) => {
 				<View style={styles.container}>
 					<View style={styles.modal}>
 						<TouchableOpacity onPress={hideModal} style={styles.closeButton}>
-							<Text>x</Text>
+							<Text
+								style={{
+									fontSize: 20,
+								}}>
+								x
+							</Text>
 						</TouchableOpacity>
-						<Text>Add a new event</Text>
+						<Text style={styles.headerText}>Add a new event</Text>
 						<View style={styles.inputWrapper}>
 							<Text>Event name:</Text>
 							<TextInput placeholder="Enter event name" onChangeText={text => setEventName(text)} />
@@ -82,8 +90,12 @@ const NewEventModal = ({ visible, hideModal }) => {
 								mode={isAllDayEvent ? 'date' : 'datetime'}
 							/>
 						</View>
-						<TouchableOpacity onPress={handleEventAdding} disabled={!eventName}>
-							<Text> add new event</Text>
+						<View style={styles.inputWrapper}>
+							<Text>Description:</Text>
+							<TextInput placeholder="Event description" onChangeText={text => setEventDescription(text)} />
+						</View>
+						<TouchableOpacity onPress={handleEventAdding} disabled={!eventName} style={styles.createButton}>
+							<Text style={styles.buttonLabel}>create</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -98,16 +110,20 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: 'rgba(255, 115, 115, 0.4)',
 	},
 	modal: {
 		width: '75%',
 		height: '50%',
 		backgroundColor: 'white',
 		borderWidth: 1,
-		borderColor: 'blue',
-		shadowColor: 'blue',
-		shadowOpacity: 0.5,
+
 		paddingTop: 15,
+		justifyContent: 'space-between',
+	},
+	headerText: {
+		fontSize: 20,
+		textAlign: 'center',
 	},
 	inputWrapper: {
 		flexDirection: 'row',
@@ -121,6 +137,16 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
+	},
+	createButton: {
+		backgroundColor: colors.MAIN_COLOR_LIGHT,
+		width: '100%',
+		paddingVertical: 10,
+		justifyContent: 'center',
+	},
+	buttonLabel: {
+		textAlign: 'center',
+		textTransform: 'uppercase',
 	},
 });
 
