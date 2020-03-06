@@ -9,13 +9,12 @@ import colors from '../../constants/theme';
 const Header = () => {
 	const { mode, currentDate } = useContext(calendarContext);
 	const [weekDates, setWeekDates] = useState([]);
-	const dayByWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 	useEffect(() => {
-		const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 2 });
+		const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 });
 		const week = [];
 
-		for (let i = 0; i < dayByWeek.length; i++) {
+		for (let i = 0; i < 7; i++) {
 			week.push(addDays(startOfWeekDate, i));
 		}
 
@@ -24,7 +23,7 @@ const Header = () => {
 
 	return (
 		<View style={{ ...styles.container, width: '100%' }}>
-			{dayByWeek.map((day, index) => (
+			{weekDates.map((day, index) => (
 				<View
 					key={index}
 					style={{
@@ -32,11 +31,9 @@ const Header = () => {
 						borderRightWidth: index === 6 ? 1 : 0,
 						height: mode === VIEW_MODES.MONTH ? 30 : 60,
 					}}>
-					<Text>{day}</Text>
-					{mode !== VIEW_MODES.MONTH && !!weekDates.length && (
-						<Text style={isSameDay(addDays(weekDates[index], -1), currentDate) && styles.chosenDay}>
-							{getDate(addDays(weekDates[index], -1))}
-						</Text>
+					<Text>{format(day, 'E')}</Text>
+					{mode !== VIEW_MODES.MONTH && (
+						<Text style={isSameDay(day, currentDate) && styles.chosenDay}>{getDate(day)}</Text>
 					)}
 				</View>
 			))}

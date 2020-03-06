@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { calendarContext } from './context';
+import { addMonths, addWeeks, addDays, subMonths, subWeeks, subDays, format } from 'date-fns';
 
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { VIEW_MODES } from '../../constants/calendarConstants';
@@ -10,9 +11,10 @@ import Header from './Header';
 import { startOfISOWeek, isSameMonth } from 'date-fns';
 import EventList from '../events-component/EventList';
 import colors from './../../constants/theme';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 const CalendarContainer = () => {
-	const { mode, currentDate, events, isLoading, setLoadingState } = useContext(calendarContext);
+	const { mode, currentDate, events, isLoading, setLoadingState, setCurrentDate } = useContext(calendarContext);
 	const [calendar, setCalendar] = useState(<Month />);
 
 	const getCalendarContent = () => {
@@ -24,6 +26,18 @@ const CalendarContainer = () => {
 			default:
 				return <Month />;
 		}
+	};
+
+	const increaseFnc = () => {
+		const add = mode === VIEW_MODES.MONTH ? addMonths : mode === VIEW_MODES.WEEK ? addWeeks : addDays;
+
+		setCurrentDate(add(currentDate, 1));
+	};
+
+	const decreaseFnc = () => {
+		const subtract = mode === VIEW_MODES.MONTH ? subMonths : mode === VIEW_MODES.WEEK ? subWeeks : subDays;
+
+		setCurrentDate(subtract(currentDate, 1));
 	};
 
 	useEffect(() => {
@@ -39,8 +53,10 @@ const CalendarContainer = () => {
 		</View>
 	) : (
 		<View style={styles.calendarContainer}>
-			<Header />
-			{calendar}
+			<GestureRecognizer onSwipeRight={decreaseFnc} onSwipeLeft={increaseFnc}>
+				<Header />
+				<View>{calendar}</View>
+			</GestureRecognizer>
 			{mode === VIEW_MODES.MONTH && (
 				<EventList events={[...events.filter(event => isSameMonth(new Date(event.startDate), currentDate))]} />
 			)}
