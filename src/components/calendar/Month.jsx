@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { calendarContext } from './context';
 import { startOfMonth, addDays, startOfISOWeek, isSameMonth } from 'date-fns';
 import Week from './Week';

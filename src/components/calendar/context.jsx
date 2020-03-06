@@ -11,6 +11,8 @@ const context = {
 	events: [],
 	addEvent: event => events.push(event),
 	deleteEvent: event => {},
+	reloading: false,
+	setLoadingState: boolean => {},
 };
 
 export const calendarContext = createContext(context);
@@ -28,19 +30,27 @@ const CalendarContextProvider = ({ children }) => {
 		},
 		{
 			name: 'second',
-			startDate: format(new Date('2020-03-06T03:25:00'), 'MMM dd, yyyy, HH:mm'),
+			startDate: format(new Date('2020-03-07T03:25:00'), 'MMM dd, yyyy, HH:mm'),
 			isAllDayEvent: false,
-			endDate: format(new Date('2020-03-06T05:10:00'), 'MMM dd, yyyy, HH:mm'),
+			endDate: format(new Date('2020-03-07T05:10:00'), 'MMM dd, yyyy, HH:mm'),
 			description: 'event for some hours',
 		},
 	]);
+	const [isLoading, setLoadingState] = useState(false);
+
+	const updateMode = mode => {
+		setMode(mode);
+		setLoadingState(true);
+	};
 
 	const value = {
 		mode,
-		setMode,
+		setMode: updateMode,
 		currentDate,
 		setCurrentDate,
 		events,
+		isLoading,
+		setLoadingState,
 		addEvent: event => setEvents([...events, event]),
 		deleteEvent: event => setEvents([..._.pull(events, event)]),
 	};

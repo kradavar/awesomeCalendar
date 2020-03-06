@@ -22,7 +22,7 @@ const Week = ({ start }) => {
 					style={{
 						width: '100%',
 						flexDirection: 'row',
-						height: '95%',
+						height: '90%',
 					}}>
 					<ScrollView>
 						<View style={styles.week}>{days}</View>

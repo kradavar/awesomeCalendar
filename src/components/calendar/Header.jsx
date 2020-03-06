@@ -31,7 +31,6 @@ const Header = () => {
 						...styles.cell,
 						borderRightWidth: index === 6 ? 1 : 0,
 						height: mode === VIEW_MODES.MONTH ? 30 : 60,
-						marginTop: mode === VIEW_MODES.MONTH ? 5 : 30,
 					}}>
 					<Text>{day}</Text>
 					{mode !== VIEW_MODES.MONTH && !!weekDates.length && (
