@@ -6,6 +6,7 @@ import { VIEW_MODES } from '../../constants/calendarConstants';
 import Hour from './Hour';
 import colors from './../../constants/theme';
 import EventInfoModal from '../events-component/EventInfoModal';
+import Timeline from './Timeline';
 
 const Day = ({ date }) => {
 	const { mode, currentDate, events, setCurrentDate, setMode } = useContext(calendarContext);
@@ -13,6 +14,7 @@ const Day = ({ date }) => {
 	const [isInfoModalVisible, setInfoModalVisible] = useState(false);
 	const [selectedEvent, setSelectedEvent] = useState({});
 	const [hours, setHours] = useState([]);
+	const [isTimelineShown, setIsTimelineShown] = useState(isSameDay(date, new Date()));
 	const isMonthMode = mode === VIEW_MODES.MONTH;
 	const isDayMode = mode === VIEW_MODES.DAY;
 	const isLastWeekOfMonth = isSameISOWeek(date, endOfMonth(currentDate));
@@ -23,7 +25,9 @@ const Day = ({ date }) => {
 		: styles.currentMonthDate;
 
 	useEffect(() => {
-		const eventsForThatDay = events.filter(event => isSameDay(new Date(event.startDate), date));
+		const eventsForThatDay = events.filter(event =>
+			isSameDay(new Date(event.startDate), isDayMode ? currentDate : date)
+		);
 		const hourArr = [];
 		for (let index = 0; index < 24; index++) {
 			const hourEvents = eventsForThatDay.filter(
@@ -35,7 +39,11 @@ const Day = ({ date }) => {
 		}
 		setHours(hourArr);
 		setEvents(eventsForThatDay);
-	}, [events, date]);
+	}, [events, date, currentDate]);
+
+	useEffect(() => {
+		setIsTimelineShown(isSameDay(currentDate, new Date()));
+	}, [currentDate]);
 
 	return (
 		<View
@@ -78,6 +86,7 @@ const Day = ({ date }) => {
 						height: '100%',
 					}}>
 					<ScrollView>
+						{isTimelineShown && <Timeline />}
 						<View>{hours}</View>
 					</ScrollView>
 				</SafeAreaView>

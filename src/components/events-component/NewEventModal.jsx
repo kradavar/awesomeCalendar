@@ -92,7 +92,15 @@ const NewEventModal = ({ visible, hideModal }) => {
 						</View>
 						<View style={styles.inputWrapper}>
 							<Text>Description:</Text>
-							<TextInput placeholder="Event description" onChangeText={text => setEventDescription(text)} />
+							<TextInput
+								placeholder="Event description"
+								onChangeText={text => setEventDescription(text)}
+								multiline={true}
+								numberOfLines={3}
+								style={{
+									width: '60%',
+								}}
+							/>
 						</View>
 						<TouchableOpacity onPress={handleEventAdding} disabled={!eventName} style={styles.createButton}>
 							<Text style={styles.buttonLabel}>create</Text>
@@ -128,6 +136,7 @@ const styles = StyleSheet.create({
 	inputWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
+		alignItems: 'flex-start',
 	},
 	closeButton: {
 		position: 'absolute',
