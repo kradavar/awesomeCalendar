@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, createRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { format, isSunday, isSameISOWeek, endOfMonth, isMonday, isSameMonth, isSameDay, isToday } from 'date-fns';
 import { calendarContext } from './context';
@@ -23,6 +23,7 @@ const Day = ({ date }) => {
 		: isMonthMode
 		? styles.dayContainer
 		: styles.currentMonthDate;
+	const scrollRef = createRef();
 
 	useEffect(() => {
 		const eventsForThatDay = events.filter(event =>
@@ -42,8 +43,10 @@ const Day = ({ date }) => {
 	}, [events, date, currentDate]);
 
 	useEffect(() => {
+		const currentTime = new Date().getHours();
 		setIsTimelineShown(isSameDay(currentDate, new Date()));
-	}, [currentDate]);
+		isDayMode && scrollRef.current.scrollTo({ y: (currentTime - 1) * 50, animated: false });
+	}, [currentDate, mode]);
 
 	return (
 		<View
@@ -85,7 +88,7 @@ const Day = ({ date }) => {
 					style={{
 						height: '100%',
 					}}>
-					<ScrollView>
+					<ScrollView ref={scrollRef}>
 						{isTimelineShown && <Timeline />}
 						<View>{hours}</View>
 					</ScrollView>
