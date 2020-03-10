@@ -69,8 +69,8 @@ const Day = ({ date }) => {
 					}}>
 					<Text style={isToday(date) ? styles.todayDate : {}}>{format(date, 'dd')}</Text>
 					{dayEvents &&
-						dayEvents.map(event => (
-							<View key={new Date()}>
+						dayEvents.map((event, index) => (
+							<View key={index}>
 								<TouchableOpacity
 									style={styles.eventWrapper}
 									onPress={() => {

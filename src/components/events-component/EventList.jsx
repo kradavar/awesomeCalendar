@@ -9,8 +9,8 @@ const EventList = ({ events }) => {
 		<View style={styles.container}>
 			<Text style={styles.header}>This month events</Text>
 			{!!events.length ? (
-				events.map(event => (
-					<View key={event.name} style={styles.event}>
+				events.map((event, index) => (
+					<View key={index} style={styles.event}>
 						<View style={styles.eventMark}></View>
 						<Text style={styles.time}>{format(new Date(event.startDate), 'do ')}</Text>
 						<Text style={styles.name}>{event.name}</Text>

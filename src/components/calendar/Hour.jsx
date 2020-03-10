@@ -3,7 +3,6 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import colors from '../../constants/theme';
 import EventInfoModal from '../events-component/EventInfoModal';
 import { differenceInMinutes } from 'date-fns';
-
 const Hour = ({ hour, isMonday, isDayMode, events }) => {
 	const [selectedEvent, setSelectedEvent] = useState({});
 	const [isInfoModalVisible, setInfoModalVisible] = useState(false);
@@ -20,39 +19,35 @@ const Hour = ({ hour, isMonday, isDayMode, events }) => {
 						<Text>{hour}</Text>
 					</View>
 				)}
-				<View>
-					{events &&
-						events.map(event => {
-							const eventHeight = Math.round(
-								(differenceInMinutes(new Date(event.endDate), new Date(event.startDate)) * 5) / 6
-							);
-							const eventTop = styles.eventWrapper.top + Math.round((new Date(event.startDate).getMinutes() * 5) / 6);
-
-							return (
-								<View
-									key={new Date()}
-									style={{
-										position: 'relative',
-									}}>
-									<TouchableOpacity
-										style={{
-											...styles.eventWrapper,
-											height: eventHeight,
-											top: eventTop,
-										}}
-										onPress={() => {
-											setSelectedEvent(event);
-											setInfoModalVisible(true);
-										}}>
-										<Text style={styles.eventName}>{event.name}:</Text>
-										<Text style={styles.eventDescription}>{event.description}</Text>
-									</TouchableOpacity>
-								</View>
-							);
-						})}
-				</View>
 			</View>
 			<EventInfoModal visible={isInfoModalVisible} hideModal={() => setInfoModalVisible(false)} event={selectedEvent} />
+			<View>
+				{events &&
+					events.map((event, index) => {
+						const eventHeight = Math.round(
+							(differenceInMinutes(new Date(event.endDate), new Date(event.startDate)) * 5) / 6
+						);
+						const eventTop = Math.round((new Date(event.startDate).getMinutes() * 5) / 6);
+
+						return (
+							<View key={index}>
+								<TouchableOpacity
+									style={{
+										...styles.eventWrapper,
+										height: eventHeight,
+										top: -eventTop,
+									}}
+									onPress={() => {
+										setSelectedEvent(event);
+										setInfoModalVisible(true);
+									}}>
+									<Text style={styles.eventName}>{event.name}:</Text>
+									<Text style={styles.eventDescription}>{event.description}</Text>
+								</TouchableOpacity>
+							</View>
+						);
+					})}
+			</View>
 		</View>
 	);
 };
@@ -80,7 +75,6 @@ const styles = StyleSheet.create({
 		marginLeft: '5%',
 		borderRadius: 5,
 		position: 'absolute',
-		top: -22,
 		zIndex: 100,
 		borderWidth: 2,
 		borderColor: colors.EVENT_MARKER_COLOR,
