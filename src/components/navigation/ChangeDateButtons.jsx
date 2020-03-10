@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginVertical: 10,
 	},
-	navigationButton: {},
 	label: {
 		color: colors.SECONDARY_COLOR_DARK,
 		fontSize: 20,

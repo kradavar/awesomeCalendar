@@ -28,10 +28,13 @@ const EventInfoModal = ({ hideModal, event, visible }) => {
 						<View>
 							{event.isAllDayEvent && <Text style={styles.description}>This is all day long event.</Text>}
 							<View>
-								<Text>Event start {event.startDate}</Text>
+								<Text>Event starts {event.startDate}</Text>
 							</View>
 							<View>
-								<Text>Event end {event.endDate}</Text>
+								<Text>Event ends {event.endDate}</Text>
+							</View>
+							<View>
+								<Text>Event description: {event.description}</Text>
 							</View>
 						</View>
 						<View>

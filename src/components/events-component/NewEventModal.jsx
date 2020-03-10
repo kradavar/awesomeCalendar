@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, CheckBox } from 'react-native';
 import { calendarContext } from '../calendar/context';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { format } from 'date-fns';
+import { format, isPast } from 'date-fns';
 import colors from '../../constants/theme';
 
 const NewEventModal = ({ visible, hideModal }) => {
@@ -16,6 +16,7 @@ const NewEventModal = ({ visible, hideModal }) => {
 	const [endDate, setEndDate] = useState(format(currentDate, 'PP'));
 	const [eventName, setEventName] = useState('');
 	const [description, setEventDescription] = useState('');
+	const [errors, setErrors] = useState({});
 
 	const handleDateChanging = (date, isStart) => {
 		const setFnc = isStart ? setStartDate : setEndDate;
@@ -24,8 +25,14 @@ const NewEventModal = ({ visible, hideModal }) => {
 		if (!date) {
 			return;
 		}
+
 		showStartPicker(false);
 		showEndPicker(false);
+		if (isPast(date)) {
+			isStart
+				? (errors.startDate = "Event can't be created in the past")
+				: (errors.endDate = "Event can't be created in the past");
+		}
 
 		setFnc(format(date, formatStr));
 		setFilledFnc(true);
@@ -69,6 +76,7 @@ const NewEventModal = ({ visible, hideModal }) => {
 							<TouchableOpacity onPress={() => showStartPicker(true)}>
 								<Text>{isStartFilled ? startDate : 'Choose event start'}</Text>
 							</TouchableOpacity>
+							{errors.startDate && <Text>{errors.startDate}</Text>}
 							<DateTimePickerModal
 								isVisible={isShownStart}
 								date={new Date(startDate)}
@@ -82,6 +90,7 @@ const NewEventModal = ({ visible, hideModal }) => {
 							<TouchableOpacity onPress={() => showEndPicker(true)}>
 								<Text>{isEndFilled ? endDate : 'Choose event end'}</Text>
 							</TouchableOpacity>
+							{errors.endDate && <Text>{errors.endDate}</Text>}
 							<DateTimePickerModal
 								isVisible={isShownEnd}
 								date={new Date(endDate)}
@@ -125,7 +134,6 @@ const styles = StyleSheet.create({
 		height: '50%',
 		backgroundColor: 'white',
 		borderWidth: 1,
-
 		paddingTop: 15,
 		justifyContent: 'space-between',
 	},

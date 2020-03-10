@@ -45,7 +45,7 @@ const Day = ({ date }) => {
 	useEffect(() => {
 		const currentTime = new Date().getHours();
 		setIsTimelineShown(isSameDay(currentDate, new Date()));
-		isDayMode && scrollRef.current.scrollTo({ y: (currentTime - 1) * 50, animated: false });
+		scrollRef.current && scrollRef.current.scrollTo({ y: (currentTime - 1) * 50, animated: false });
 	}, [currentDate, mode]);
 
 	return (
